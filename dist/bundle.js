@@ -74,7 +74,7 @@ const Newtodo = (title,description,date,priority) => {
    date,
    priority,
   }
-}
+};
 
   document.querySelector("#new-project").addEventListener("click",function(){
     document.querySelector(".modal").style.display = "inline";
