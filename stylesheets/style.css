@@ -1,0 +1,68 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body{
+  z-index: 1
+  min-height: 100%;
+  width: 100%
+  margin:0;
+  padding:0;
+}
+
+img{
+  height: auto;
+  width:30%;
+}
+
+#page-mask {
+  z-index: 2;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.modal{
+  display: none;
+  position: fixed;
+  width: 70%; /* Set your desired with */
+  height:70%;
+  z-index: 3; /* Make sure its above other items. */
+  top: 30%;
+  left: 50%;
+  margin-top: -10%; /* Changes with height. */
+  margin-left: -35%; /* Your width divided by 2. */
+
+  /* You will not need the below, its only for styling   purposes. */
+  padding: 10px;
+  border: 2px solid #555555;
+  background-color: #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.head{
+  width:100%;
+  text-align: center;
+}
+
+.button{
+  width:80%;
+  margin-top:20px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color:rgb(0, 179, 0);
+  box-shadow: 0 0.05em 0.25em 0 rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+  padding: 1rem 3.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
