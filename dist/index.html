@@ -7,20 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    
+
     <div class="modal">
-      <button id="close">Close</button>
+      <button id="close">X</button>
       <form>
+        <img id="check" src="assets/check.png"><br>
         <label>Title:</label><br>
-        <input type="text" name="title"><br>
-        <label>Description:</label><br>
-        <textarea name="comment" form="usrform">Enter text here...</textarea><br>
+        <input type="text" name="title" required><br><br>
         <label>Due Date:</label><br>
-        <input type="date" name="date"><br>
+        <input type="date" name="date"><br><br>
         <label>Priority(low,medium,high)</label><br>
-        <input type="radio" name="priority">
-        <input type="radio" name="priority">
-        <input type="radio" name="priority"><br>
+        <input type="radio" name="priority" value="green">
+        <input type="radio" name="priority" value="yellow">
+        <input type="radio" name="priority" value="red"><br>
         <input class="new-project-submit" type="submit" name="submit" value="Create Project">
       </form>
     </div>
@@ -30,6 +29,10 @@
       <img src="assets/this.png">
       <button class="button" id="new-project">New project</button>
     </div>
+
+    <div class="current-projects">Current projects<span class="float" style="float:right;">Due Date</span></div>
+
+    <div class="projects"></div>
 
     <script type="text/javascript" src="bundle.js"></script>
   </body>
