@@ -57,7 +57,7 @@ form{
   left: 0;
 }
 
-.modal{
+.modal, .modal-2{
   display: none;
   position: absolute;
   width: 50%;
@@ -126,13 +126,26 @@ form{
   margin-left: 10%;
   height:50px;
   border-bottom: 1px solid black;
-  padding-top: 30px;
+  padding-top: 15px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
 
+.list-button{
+  background-color:gray;
+  box-shadow: 0 0.05em 0.25em 0 rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+  padding: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
 @media only screen and (max-width: 800px) {
-  .modal{
+  .modal,.modal-2{
     width: 90%;
     margin-left: -45%;
   }
@@ -142,7 +155,7 @@ form{
 }
 
 @media only screen and (max-width: 500px) {
-  .modal{
+  .modal,.modal-2{
     position:absolute;
     top:0;
     bottom: 0;
