@@ -144,6 +144,31 @@ form{
   border: none;
 }
 
+/* todo modal */
+
+.modal-2-header{
+  font-weight: bold;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.todo-form{
+  padding-top: 15px;
+}
+
+.todo-list{
+  border-bottom: 1px solid gray;
+  width: 100%;
+  height: 1px;
+}
+
+.todo-list-item{
+  text-align: left;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding:5px;
+  border-bottom: 1px solid gray;
+  width: 100%;
+}
+
 @media only screen and (max-width: 800px) {
   .modal,.modal-2{
     width: 90%;

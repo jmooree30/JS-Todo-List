@@ -1,4 +1,5 @@
 const projectArr = [];
+const todoArr = [];
 let projectCounter = 0;
 
 const Newtodo = (title,date,priority) => {
@@ -33,14 +34,18 @@ document.querySelector("#new-project").addEventListener("click",function(){
 });
 
 //close button inside modal
-document.querySelector("#close").addEventListener("click",function(){
+close = document.querySelectorAll("#close")
+  close.forEach(function(el){
+  el.addEventListener("click",function(){
   document.querySelector(".modal").style.display = "none";
+  document.querySelector(".modal-2").style.display = "none";
   document.querySelector("#page-mask").style.display = "none";
+  });
 });
 
 //creates project and closes modal
-document.querySelector("form").addEventListener("submit", function(e){
-  values = document.querySelector("form")
+document.querySelector("#project").addEventListener("submit", function(e){
+  values = document.querySelector("#project")
   document.querySelector(".modal").style.display = "none";
   document.querySelector("#page-mask").style.display = "none";
   e.preventDefault()
@@ -54,21 +59,54 @@ document.querySelector("form").addEventListener("submit", function(e){
 })
 
 //opens todo list 
+let currentProject = "";
 function todoList(){
 listButton = document.querySelectorAll(".list-button")
 listButton.forEach(function(e){
   e.addEventListener("click",function(d){
     document.querySelector("#page-mask").style.display = "inline";
     document.querySelector(".modal-2").style.display = "inline";
-    findDataset(e.dataset.name)
+    document.querySelector(".modal-2-header").innerHTML = projectArr[e.dataset.name].title
+    currentProject = e.dataset.name
+    populateTodo(currentProject)
   })
 })
 }
 
-//finds the project object relevant to project clicked.
-function findDataset(e){
-  projectArr.forEach(function(obj){
-    if(obj.dataset == e)
-      console.log(obj)
+const TodoChild = (dataset) => {
+  const content = [];
+  return {
+   content,
+   dataset
+ }
+};
+
+//adds tasks
+document.querySelector(".todo-form").addEventListener("submit",function(e){
+  e.preventDefault()
+  todo = document.querySelector(".todo-form")
+  parentdiv = document.querySelector(".todo-list")
+  div = document.createElement("div")
+  div.classList = "todo-list-item"
+  div.innerHTML = todo.elements["todo"].value
+  parentdiv.appendChild(div)
+  const taskStorage = TodoChild(currentProject)
+  taskStorage.content.push(todo.elements["todo"].value)
+  todoArr.push(taskStorage)
+  })
+
+function populateTodo(currentProject){
+  todoArr.forEach(function(el){
+    const old = document.querySelectorAll(".todo-list-item")
+    old.forEach(function(element){
+      element.remove()
+    })
+    if (el.dataset == currentProject){
+      parentdiv = document.querySelector(".todo-list")
+      div = document.createElement("div")
+      div.classList = "todo-list-item"
+      div.innerHTML = el.content
+      parentdiv.appendChild(div)
+    }
   })
 }
