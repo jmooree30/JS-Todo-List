@@ -175,6 +175,13 @@ form{
   margin-right: 10px;
 }
 
+.fa-trash-o{
+  float: right;
+  color:red;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
 @media only screen and (max-width: 800px) {
   .modal,.modal-2{
     width: 90%;
