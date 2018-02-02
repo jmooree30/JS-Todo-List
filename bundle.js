@@ -163,7 +163,10 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
   newCheckBox.type = 'checkbox';
   newCheckBox.classList = "checkbox"
   newCheckBox.dataset.name = todo.elements["todo"].value
+  trash = document.createElement("div")
+  trash.classList= "fa fa-trash-o"
   parentdiv.appendChild(newCheckBox)
+  parentdiv.appendChild(trash)
   parentdiv.appendChild(div)
   const taskStorage = TodoChild(currentProject)
   taskStorage.content.push(todo.elements["todo"].value)
@@ -180,6 +183,10 @@ function populateTodo(currentProject){
   OLDCHECK.forEach(function(element){
     element.remove();
   })
+  const TRASH = document.querySelectorAll(".fa-trash-o")
+  TRASH.forEach(function(element){
+    element.remove();
+  })
   todoArr.forEach(function(el){
     if (el.dataset == currentProject){
       parentdiv = document.querySelector(".todo-list")
@@ -190,10 +197,13 @@ function populateTodo(currentProject){
       newCheckBox.type = 'checkbox';
       newCheckBox.classList = "checkbox"
       newCheckBox.dataset.name = el.content
+      trash = document.createElement("div")
+      trash.classList= "fa fa-trash-o"
       if (el.check == "checked"){
         newCheckBox.checked = true
       }
       parentdiv.appendChild(newCheckBox)
+      parentdiv.appendChild(trash)
       parentdiv.appendChild(div)
     }
   })
