@@ -145,6 +145,7 @@ listButton.forEach(function(e){
 const TodoChild = (dataset) => {
   const content = [];
   return {
+   check,
    content,
    dataset
  }
@@ -158,26 +159,65 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
   div = document.createElement("div")
   div.classList = "todo-list-item"
   div.innerHTML = todo.elements["todo"].value
+  newCheckBox = document.createElement('input');
+  newCheckBox.type = 'checkbox';
+  newCheckBox.classList = "checkbox"
+  newCheckBox.dataset.name = todo.elements["todo"].value
+  parentdiv.appendChild(newCheckBox)
   parentdiv.appendChild(div)
   const taskStorage = TodoChild(currentProject)
   taskStorage.content.push(todo.elements["todo"].value)
   todoArr.push(taskStorage)
-  })
+  populateTodo(currentProject)
+})
 
 function populateTodo(currentProject){
+  const OLD = document.querySelectorAll(".todo-list-item")
+  OLD.forEach(function(element){
+    element.remove();
+  })
+  const OLDCHECK = document.querySelectorAll(".checkbox")
+  OLDCHECK.forEach(function(element){
+    element.remove();
+  })
   todoArr.forEach(function(el){
-    const old = document.querySelectorAll(".todo-list-item")
-    old.forEach(function(element){
-      element.remove()
-    })
     if (el.dataset == currentProject){
       parentdiv = document.querySelector(".todo-list")
       div = document.createElement("div")
       div.classList = "todo-list-item"
       div.innerHTML = el.content
+      newCheckBox = document.createElement('input');
+      newCheckBox.type = 'checkbox';
+      newCheckBox.classList = "checkbox"
+      newCheckBox.dataset.name = el.content
+      if (el.check == "checked"){
+        newCheckBox.checked = true
+      }
+      parentdiv.appendChild(newCheckBox)
       parentdiv.appendChild(div)
     }
   })
+  checkBox()
+}
+
+function checkBox(){
+test = document.querySelectorAll(".checkbox")
+test.forEach(function(e){
+  e.addEventListener("click", function(){
+    for(i=0;i < todoArr.length;i++){
+      if(todoArr[i].content == e.dataset.name){
+        if (todoArr[i].check != "checked"){
+        todoArr[i].check = "checked";
+        console.log(todoArr[i])
+        break;
+        }
+        else{todoArr[i].check = "unchecked"
+        console.log(todoArr[i])
+        break;}
+      }
+    }
+  })
+})
 }
 
 /***/ })
