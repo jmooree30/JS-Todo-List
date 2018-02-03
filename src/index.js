@@ -78,13 +78,13 @@ document.querySelector("#project").addEventListener("submit", function(e){
 
 function defaultProjects(){
   if (projectArr.length < 3){
-    one = Newtodo("The Odin Project","1/1/2018","red")
+    one = Newtodo("The Odin Project","2019-02-06","red")
     one.dataset = 0
     projectArr.push(one)
-    two = Newtodo("Hartl","3/4/2018","orange")
+    two = Newtodo("Hartl","2018-02-06","orange")
     two.dataset = 1
     projectArr.push(two)
-    three = Newtodo("YDKJS","3/12/2018","green")
+    three = Newtodo("YDKJS","2018-22-02","green")
     three.dataset = 2
     projectArr.push(three)
   }
