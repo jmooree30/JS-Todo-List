@@ -14,7 +14,7 @@
       <form id="project">
         <img id="check" src="assets/check.png"><br>
         <label>Title:</label><br>
-        <input type="text" name="title" required><br><br>
+        <input type="text" name="title" maxlength="15" placeholder="Max 15 characters" required><br><br>
         <label>Due Date:</label><br>
         <input type="date" name="date"><br><br>
         <label>Priority(low,medium,high)</label><br>
@@ -39,8 +39,8 @@
       <button id="close">X</button>
       <div class="modal-2-header"></div>
       <form class="todo-form">
-        <input type="text" name="todo" style="margin-bottom: 10px;" required>
-        <input type="submit" name="submit" value="Add task">
+        <input type="text" name="todo" style="margin-bottom: 10px;" placeholder="Max 20 characters" maxlength="20" required>
+        <input class="todo-submit-button" type="submit" name="submit" value="Add task">
       </form>
       <div class="todo-list"></div>
     </div>

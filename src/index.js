@@ -11,13 +11,15 @@ const Newtodo = (title,date,priority) => {
    priority,
  }
 };
-projectArr.push(Newtodo("The Odin Project","1/1/2018","red"))
-projectArr.push(Newtodo("Hartl","3/4/2018","orange"))
-projectArr.push(Newtodo("YDKJS","3/12/2018","green"))
 
 function populateProjects(){
   div = document.createElement("div")
   div.classList = "eachproject"
+  div.dataset.name = projectArr[projectArr.length - 1].dataset
+  //trash = document.createElement("div")
+  //trash.classList= "fa fa-trash-o";
+  //trash.id = "trashproject"
+  //trash.dataset.name = projectArr[projectArr.length - 1].dataset
   button = document.createElement("button")
   button.classList = "list-button"
   button.innerHTML = projectArr[projectArr.length - 1].title
@@ -26,8 +28,10 @@ function populateProjects(){
   span = document.createElement("span")
   span.innerHTML = projectArr[projectArr.length - 1].date
   span.style.float = "right"
+  //document.querySelector(".projects").appendChild(div).appendChild(trash)
   document.querySelector(".projects").appendChild(div).appendChild(button)
   document.querySelector(".projects").appendChild(div).appendChild(span)
+  deleteProject()
 }
 
 //brings up new project modal
@@ -38,11 +42,11 @@ document.querySelector("#new-project").addEventListener("click",function(){
 
 //close button inside modal
 close = document.querySelectorAll("#close")
-  close.forEach(function(el){
+close.forEach(function(el){
   el.addEventListener("click",function(){
-  document.querySelector(".modal").style.display = "none";
-  document.querySelector(".modal-2").style.display = "none";
-  document.querySelector("#page-mask").style.display = "none";
+    document.querySelector(".modal").style.display = "none";
+    document.querySelector(".modal-2").style.display = "none";
+    document.querySelector("#page-mask").style.display = "none";
   });
 });
 
@@ -58,51 +62,87 @@ document.querySelector("#project").addEventListener("submit", function(e){
     alert("Project already exists!")
   }
   else{
-  document.querySelector(".modal").style.display = "none";
-  document.querySelector("#page-mask").style.display = "none";
-  e.preventDefault()
-  const newProject = Newtodo(values.elements["title"].value,
-   values.elements["date"].value,
-   values.elements["priority"].value)
-  projectArr.push(newProject)
-  localStorage.setItem('items', JSON.stringify(projectArr));
-  populateProjects()
-  projectCounter += 1;
-  todoList()
-}
+    document.querySelector(".modal").style.display = "none";
+    document.querySelector("#page-mask").style.display = "none";
+    e.preventDefault()
+    const newProject = Newtodo(values.elements["title"].value,
+     values.elements["date"].value,
+     values.elements["priority"].value)
+    projectArr.push(newProject)
+    localStorage.setItem('items', JSON.stringify(projectArr));
+    populateProjects()
+    projectCounter += 1;
+    todoList()
+  }
 })
 
-window.onload = (function(){
-for (i=0;i < projectArr.length;i++){
-  div = document.createElement("div")
-  div.classList = "eachproject"
-  button = document.createElement("button")
-  button.classList = "list-button"
-  button.innerHTML = projectArr[i].title
-  button.dataset.name = projectArr[i].dataset
-  button.style.background = projectArr[i].priority
-  span = document.createElement("span")
-  span.innerHTML = projectArr[i].date
-  span.style.float = "right"
-  document.querySelector(".projects").appendChild(div).appendChild(button)
-  document.querySelector(".projects").appendChild(div).appendChild(span)
-  todoList()
+function defaultProjects(){
+  if (projectArr.length < 3){
+    one = Newtodo("The Odin Project","1/1/2018","red")
+    one.dataset = 0
+    projectArr.push(one)
+    two = Newtodo("Hartl","3/4/2018","orange")
+    two.dataset = 1
+    projectArr.push(two)
+    three = Newtodo("YDKJS","3/12/2018","green")
+    three.dataset = 2
+    projectArr.push(three)
+  }
 }
+
+window.onload = (function(){
+  defaultProjects()
+  console.log(todoArr)
+  for (i=0;i < projectArr.length;i++){
+    projectArr[i].dataset = i
+    div = document.createElement("div")
+    div.classList = "eachproject"
+    div.dataset.name = projectArr[i].dataset;
+    trash = document.createElement("div")
+   // trash.classList= "fa fa-trash-o";
+   // trash.id = "trashproject"
+   //trash.dataset.name = projectArr[i].dataset
+    button = document.createElement("button")
+    button.classList = "list-button"
+    button.innerHTML = projectArr[i].title
+    button.dataset.name = projectArr[i].dataset
+    button.style.background = projectArr[i].priority
+    span = document.createElement("span")
+    span.innerHTML = projectArr[i].date
+    span.style.float = "right"
+    //document.querySelector(".projects").appendChild(div).appendChild(trash)
+    document.querySelector(".projects").appendChild(div).appendChild(button)
+    document.querySelector(".projects").appendChild(div).appendChild(span)
+    projectCounter += 1
+    todoList()
+  }
+  //deleteProject()
 })
+
+function deleteProject(){
+  trash = document.querySelectorAll("#trashproject")
+  trash.forEach(function(el){
+   el.addEventListener("click",function(e){
+    projectArr.splice(el.dataset.name,1)
+    localStorage.setItem('items', JSON.stringify(projectArr));
+    location.reload()
+  })
+ })
+}
 
 //opens todo list 
 let currentProject = "";
 function todoList(){
-listButton = document.querySelectorAll(".list-button")
-listButton.forEach(function(e){
-  e.addEventListener("click",function(d){
-    document.querySelector("#page-mask").style.display = "inline";
-    document.querySelector(".modal-2").style.display = "inline";
-    document.querySelector(".modal-2-header").innerHTML = projectArr[e.dataset.name].title
-    currentProject = e.dataset.name
-    populateTodo(currentProject)
+  listButton = document.querySelectorAll(".list-button")
+  listButton.forEach(function(e){
+    e.addEventListener("click",function(d){
+      document.querySelector("#page-mask").style.display = "inline";
+      document.querySelector(".modal-2").style.display = "inline";
+      document.querySelector(".modal-2-header").innerHTML = projectArr[e.dataset.name].title
+      currentProject = e.dataset.name
+      populateTodo(currentProject)
+    })
   })
-})
 }
 
 const TodoChild = (dataset) => {
@@ -127,27 +167,28 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
     alert("Task already exists!")
   }
   else{
-  parentdiv = document.querySelector(".todo-list")
-  div = document.createElement("div")
-  div.classList = "todo-list-item"
-  div.innerHTML = todo.elements["todo"].value
-  div.dataset.name = todo.elements["todo"].value
-  newCheckBox = document.createElement('input');
-  newCheckBox.type = 'checkbox';
-  newCheckBox.classList = "checkbox"
-  newCheckBox.dataset.name = todo.elements["todo"].value
-  trash = document.createElement("div")
-  trash.classList= "fa fa-trash-o"
-  trash.dataset.name = todo.elements["todo"].value
-  parentdiv.appendChild(newCheckBox)
-  parentdiv.appendChild(trash)
-  parentdiv.appendChild(div)
-  const taskStorage = TodoChild(currentProject)
-  taskStorage.content.push(todo.elements["todo"].value)
-  todoArr.push(taskStorage)
-  localStorage.setItem('todo', JSON.stringify(todoArr));
-  populateTodo(currentProject)
-}
+    parentdiv = document.querySelector(".todo-list")
+    div = document.createElement("div")
+    div.classList = "todo-list-item"
+    div.innerHTML = todo.elements["todo"].value
+    div.dataset.name = todo.elements["todo"].value
+    newCheckBox = document.createElement('input');
+    newCheckBox.type = 'checkbox';
+    newCheckBox.classList = "checkbox"
+    newCheckBox.dataset.name = todo.elements["todo"].value
+    trash = document.createElement("div")
+    trash.classList= "fa fa-trash-o"
+    trash.id = "trash";
+    trash.dataset.name = todo.elements["todo"].value
+    parentdiv.appendChild(newCheckBox)
+    parentdiv.appendChild(trash)
+    parentdiv.appendChild(div)
+    const taskStorage = TodoChild(currentProject)
+    taskStorage.content.push(todo.elements["todo"].value)
+    todoArr.push(taskStorage)
+    localStorage.setItem('todo', JSON.stringify(todoArr));
+    populateTodo(currentProject)
+  }
 })
 
 function populateTodo(currentProject){
@@ -161,7 +202,7 @@ function populateTodo(currentProject){
     element.remove();
     localStorage.setItem('todo', JSON.stringify(todoArr));
   })
-  const TRASH = document.querySelectorAll(".fa-trash-o")
+  const TRASH = document.querySelectorAll("#trash")
   TRASH.forEach(function(element){
     element.remove();
     localStorage.setItem('todo', JSON.stringify(todoArr));
@@ -180,6 +221,7 @@ function populateTodo(currentProject){
       trash = document.createElement("div")
       trash.classList= "fa fa-trash-o"
       trash.dataset.name = el.content
+      trash.id = "trash"
       if (el.check == "checked"){
         newCheckBox.checked = true
       }
@@ -193,23 +235,23 @@ function populateTodo(currentProject){
 }
 
 function checkBox(){
-test = document.querySelectorAll(".checkbox")
-test.forEach(function(e){
-  e.addEventListener("click", function(){
-    for(i=0;i < todoArr.length;i++){
-      if(todoArr[i].content == e.dataset.name){
-        if (todoArr[i].check != "checked"){
-        todoArr[i].check = "checked";
-        localStorage.setItem('todo', JSON.stringify(todoArr));
-        break;
+  test = document.querySelectorAll(".checkbox")
+  test.forEach(function(e){
+    e.addEventListener("click", function(){
+      for(i=0;i < todoArr.length;i++){
+        if(todoArr[i].content == e.dataset.name){
+          if (todoArr[i].check != "checked"){
+            todoArr[i].check = "checked";
+            localStorage.setItem('todo', JSON.stringify(todoArr));
+            break;
+          }
+          else{todoArr[i].check = "unchecked"
+            localStorage.setItem('todo', JSON.stringify(todoArr));
+          break;}
         }
-        else{todoArr[i].check = "unchecked"
-        localStorage.setItem('todo', JSON.stringify(todoArr));
-        break;}
       }
-    }
+    })
   })
-})
 }
 
 function deleteTodo(){
@@ -226,12 +268,12 @@ function deleteTodo(){
           })
           del2 = document.querySelectorAll(".checkbox")
           del2.forEach(function(del){
-            del.remove()
             if(del.dataset.name == element.content){
+             del.remove()
              todoArr.splice(todoArr.indexOf(element),1)   
              localStorage.setItem('todo', JSON.stringify(todoArr));      
-            }
-          })
+           }
+         })
         }
       })
     })
