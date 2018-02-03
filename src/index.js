@@ -1,5 +1,5 @@
-const projectArr = [];
-const todoArr = [];
+const projectArr = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+const todoArr = localStorage.getItem('todo') ? JSON.parse(localStorage.getItem('todo')) : [];
 let projectCounter = 0;
 
 const Newtodo = (title,date,priority) => {
@@ -53,9 +53,20 @@ document.querySelector("#project").addEventListener("submit", function(e){
    values.elements["date"].value,
    values.elements["priority"].value)
   projectArr.push(newProject)
+  localStorage.setItem('items', JSON.stringify(projectArr));
+  console.log(localStorage)
   populateProjects()
   projectCounter += 1;
   todoList()
+})
+
+window.onload = (function(){
+  data = JSON.parse(localStorage.getItem('items'))
+  data.forEach(function(el){
+  projectArr.push(el)
+  populateProjects()
+  todoList()
+ })
 })
 
 //opens todo list 
@@ -90,18 +101,21 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
   div = document.createElement("div")
   div.classList = "todo-list-item"
   div.innerHTML = todo.elements["todo"].value
+  div.dataset.name = todo.elements["todo"].value
   newCheckBox = document.createElement('input');
   newCheckBox.type = 'checkbox';
   newCheckBox.classList = "checkbox"
   newCheckBox.dataset.name = todo.elements["todo"].value
   trash = document.createElement("div")
   trash.classList= "fa fa-trash-o"
+  trash.dataset.name = todo.elements["todo"].value
   parentdiv.appendChild(newCheckBox)
   parentdiv.appendChild(trash)
   parentdiv.appendChild(div)
   const taskStorage = TodoChild(currentProject)
   taskStorage.content.push(todo.elements["todo"].value)
   todoArr.push(taskStorage)
+  localStorage.setItem('todo', JSON.stringify(todoArr));
   populateTodo(currentProject)
 })
 
@@ -109,14 +123,17 @@ function populateTodo(currentProject){
   const OLD = document.querySelectorAll(".todo-list-item")
   OLD.forEach(function(element){
     element.remove();
+    localStorage.setItem('todo', JSON.stringify(todoArr));
   })
   const OLDCHECK = document.querySelectorAll(".checkbox")
   OLDCHECK.forEach(function(element){
     element.remove();
+    localStorage.setItem('todo', JSON.stringify(todoArr));
   })
   const TRASH = document.querySelectorAll(".fa-trash-o")
   TRASH.forEach(function(element){
     element.remove();
+    localStorage.setItem('todo', JSON.stringify(todoArr));
   })
   todoArr.forEach(function(el){
     if (el.dataset == currentProject){
@@ -124,12 +141,14 @@ function populateTodo(currentProject){
       div = document.createElement("div")
       div.classList = "todo-list-item"
       div.innerHTML = el.content
+      div.dataset.name = el.content
       newCheckBox = document.createElement('input');
       newCheckBox.type = 'checkbox';
       newCheckBox.classList = "checkbox"
       newCheckBox.dataset.name = el.content
       trash = document.createElement("div")
       trash.classList= "fa fa-trash-o"
+      trash.dataset.name = el.content
       if (el.check == "checked"){
         newCheckBox.checked = true
       }
@@ -139,6 +158,7 @@ function populateTodo(currentProject){
     }
   })
   checkBox()
+  deleteTodo()
 }
 
 function checkBox(){
@@ -149,14 +169,40 @@ test.forEach(function(e){
       if(todoArr[i].content == e.dataset.name){
         if (todoArr[i].check != "checked"){
         todoArr[i].check = "checked";
-        console.log(todoArr[i])
+        localStorage.setItem('todo', JSON.stringify(todoArr));
         break;
         }
         else{todoArr[i].check = "unchecked"
-        console.log(todoArr[i])
+        localStorage.setItem('todo', JSON.stringify(todoArr));
         break;}
       }
     }
   })
 })
+}
+
+function deleteTodo(){
+  trash = document.querySelectorAll(".fa-trash-o")
+  trash.forEach(function(e){
+    e.addEventListener("click", function(){
+      todoArr.forEach(function(element){
+        if(element.content == e.dataset.name){
+          del = document.querySelectorAll("div")
+          del.forEach(function(el){
+            if(el.dataset.name == element.content){
+              el.remove()
+            }
+          })
+          del2 = document.querySelectorAll(".checkbox")
+          del2.forEach(function(del){
+            del.remove()
+            if(del.dataset.name == element.content){
+             todoArr.splice(todoArr.indexOf(element),1)   
+             localStorage.setItem('todo', JSON.stringify(todoArr));      
+            }
+          })
+        }
+      })
+    })
+  })
 }
