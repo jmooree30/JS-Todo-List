@@ -11,6 +11,9 @@ const Newtodo = (title,date,priority) => {
    priority,
  }
 };
+projectArr.push(Newtodo("The Odin Project","1/1/2018","red"))
+projectArr.push(Newtodo("Hartl","3/4/2018","orange"))
+projectArr.push(Newtodo("YDKJS","3/12/2018","green"))
 
 function populateProjects(){
   div = document.createElement("div")
@@ -46,6 +49,15 @@ close = document.querySelectorAll("#close")
 //creates project and closes modal
 document.querySelector("#project").addEventListener("submit", function(e){
   values = document.querySelector("#project")
+  projectArr.forEach(function(el){
+    if(el.title == values.elements["title"].value){
+      values.elements["title"].value = ""
+    }
+  })
+  if (values.elements["title"].value == ""){
+    alert("Project already exists!")
+  }
+  else{
   document.querySelector(".modal").style.display = "none";
   document.querySelector("#page-mask").style.display = "none";
   e.preventDefault()
@@ -54,19 +66,28 @@ document.querySelector("#project").addEventListener("submit", function(e){
    values.elements["priority"].value)
   projectArr.push(newProject)
   localStorage.setItem('items', JSON.stringify(projectArr));
-  console.log(localStorage)
   populateProjects()
   projectCounter += 1;
   todoList()
+}
 })
 
 window.onload = (function(){
-  data = JSON.parse(localStorage.getItem('items'))
-  data.forEach(function(el){
-  projectArr.push(el)
-  populateProjects()
+for (i=0;i < projectArr.length;i++){
+  div = document.createElement("div")
+  div.classList = "eachproject"
+  button = document.createElement("button")
+  button.classList = "list-button"
+  button.innerHTML = projectArr[i].title
+  button.dataset.name = projectArr[i].dataset
+  button.style.background = projectArr[i].priority
+  span = document.createElement("span")
+  span.innerHTML = projectArr[i].date
+  span.style.float = "right"
+  document.querySelector(".projects").appendChild(div).appendChild(button)
+  document.querySelector(".projects").appendChild(div).appendChild(span)
   todoList()
- })
+}
 })
 
 //opens todo list 
@@ -97,6 +118,15 @@ const TodoChild = (dataset) => {
 document.querySelector(".todo-form").addEventListener("submit",function(e){
   e.preventDefault()
   todo = document.querySelector(".todo-form")
+  todoArr.forEach(function(el){
+    if(el.content == todo.elements["todo"].value){
+      todo.elements["todo"].value = ""
+    }
+  })
+  if (todo.elements["todo"].value == ""){
+    alert("Task already exists!")
+  }
+  else{
   parentdiv = document.querySelector(".todo-list")
   div = document.createElement("div")
   div.classList = "todo-list-item"
@@ -117,6 +147,7 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
   todoArr.push(taskStorage)
   localStorage.setItem('todo', JSON.stringify(todoArr));
   populateTodo(currentProject)
+}
 })
 
 function populateTodo(currentProject){
