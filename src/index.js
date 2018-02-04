@@ -153,7 +153,6 @@ const TodoChild = (dataset) => {
    dataset
  }
 };
-
 //adds tasks
 document.querySelector(".todo-form").addEventListener("submit",function(e){
   e.preventDefault()
@@ -167,6 +166,7 @@ document.querySelector(".todo-form").addEventListener("submit",function(e){
     alert("Task already exists!")
   }
   else{
+    console.log(todoArr)
     parentdiv = document.querySelector(".todo-list")
     div = document.createElement("div")
     div.classList = "todo-list-item"
